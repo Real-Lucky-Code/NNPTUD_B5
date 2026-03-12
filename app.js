@@ -28,7 +28,7 @@ app.use('/api/v1/categories', require('./routes/categories'))
 app.use('/api/v1/users', require('./routes/users'))
 app.use('/api/v1/roles', require('./routes/roles'))
 
-mongoose.connect('mongodb://localhost:27017/NNPTUD-C5');
+mongoose.connect('mongodb+srv://admin:tbt123456@cluster0.ivlinvb.mongodb.net/?appName=Cluster0');
 mongoose.connection.on('connected', function () {
   console.log("connected");
 })
@@ -43,13 +43,9 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  res.status(err.status || 500).send({
+    message: err.message,
+    error: err
+  });
 });
-
 module.exports = app;
